@@ -14,26 +14,24 @@ namespace WDLT.Clients.TMarket
 
         public TMarketClient(string userAgent) : base(userAgent) { } 
 
-        public Task<IRestResponse<TMarketPrices>> CSGOPrices(ETMarketCurrency currency)
+        public Task<TMarketPrices> CSGOPrices(ETMarketCurrency currency)
         {
-            return _client.ExecuteAsync<TMarketPrices>(new RestRequest(CSGO_HOST + $"/prices/{currency}.json"));
+            return RequestAsync<TMarketPrices>(new RestRequest(CSGO_HOST + $"/prices/{currency}.json"));
         }
 
-        public Task<IRestResponse<TMarketPrices>> DOTAPrices(ETMarketCurrency currency)
+        public Task<TMarketPrices> DOTAPrices(ETMarketCurrency currency)
         {
-            return _client.ExecuteAsync<TMarketPrices>(new RestRequest(DOTA_HOST + $"/prices/{currency}.json"));
+            return RequestAsync<TMarketPrices>(new RestRequest(DOTA_HOST + $"/prices/{currency}.json"));
         }
 
-        public async Task<TMarketItemInstances> CSGOInstances(ETMarketCurrency currency)
+        public Task<TMarketItemInstances> CSGOInstances(ETMarketCurrency currency)
         {
-            var data = await _client.ExecuteAsync(new RestRequest(CSGO_HOST + $"/prices/class_instance/{currency}.json"));
-            return JsonConvert.DeserializeObject<TMarketItemInstances>(data.Content);
+            return RequestAsync<TMarketItemInstances>(new RestRequest(CSGO_HOST + $"/prices/class_instance/{currency}.json"));
         }
 
-        public async Task<TMarketItemInstances> DOTAInstances(ETMarketCurrency currency)
+        public Task<TMarketItemInstances> DOTAInstances(ETMarketCurrency currency)
         {
-            var data = await _client.ExecuteAsync(new RestRequest(DOTA_HOST + $"/prices/class_instance/{currency}.json"));
-            return JsonConvert.DeserializeObject<TMarketItemInstances>(data.Content);
+            return RequestAsync<TMarketItemInstances>(new RestRequest(DOTA_HOST + $"/prices/class_instance/{currency}.json"));
         }
     }
 }
